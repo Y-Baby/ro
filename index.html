@@ -51,7 +51,7 @@
         <h2>Link Opener</h2>
         <label for="linksInput">Enter Links:</label>
         <textarea id="linksInput" placeholder="Paste links separated by commas" oninput="colorizeLinks()"></textarea>
-        <button onclick="openAndCloseLink()">Submit</button>
+        <button onclick="startOpeningLinks()">Submit</button>
     </div>
 
     <script type="text/javascript">
@@ -84,9 +84,9 @@
             }
         };
 
-        // Attempt to disable F12 and Ctrl+Shift+I
+        // Attempt to disable F12, Ctrl+Shift+I, and Ctrl+Shift+C
         window.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I'))) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'c' || e.key === 'C'))) {
                 e.preventDefault();
             }
         });
@@ -122,7 +122,7 @@
 
                 setTimeout(function() {
                     openAndCloseLink(links);
-                }, 100); // 2 seconds
+                }, 10); // 2 seconds
             }
         }
 
