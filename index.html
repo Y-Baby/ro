@@ -105,29 +105,31 @@
 
         function openAndCloseLink(links) {
             if (count < 100000) {
-                var link = links[currentIndex];
-                var newWindow = window.open(link);
-                count++;
-                if (currentIndex < links.length - 1) {
-                    currentIndex++;
-                } else {
-                    currentIndex = 0;
+                for (var i = 0; i < 2; i++) {
+                    var link = links[currentIndex];
+                    var newWindow = window.open(link);
+                    count++;
+                    if (currentIndex < links.length - 1) {
+                        currentIndex++;
+                    } else {
+                        currentIndex = 0;
+                    }
+
+                    // Close the tab after 3 seconds
+                    setTimeout(function(tabToClose) {
+                        return function() {
+                            if (tabToClose && !tabToClose.closed) {
+                                tabToClose.close();
+                            }
+                        };
+                    }(newWindow), 3000);
                 }
 
-                setTimeout(function() {
-                    if (newWindow) {
-                        newWindow.close();
-                    }
-                }, 3000); // 3 seconds
-
+                // Open a new batch of tabs every 1 second
                 setTimeout(function() {
                     openAndCloseLink(links);
-                }, 10); // 2 seconds
+                }, 1000); // 1000 milliseconds (1 second)
             }
-        }
-
-        function getRandomColor() {
-            return '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
         }
     </script>
 </body>
