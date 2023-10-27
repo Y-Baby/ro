@@ -51,7 +51,7 @@
         <h2>Link Opener</h2>
         <label for="linksInput">Enter Links:</label>
         <textarea id="linksInput" placeholder="Paste links separated by commas" oninput="colorizeLinks()"></textarea>
-        <button onclick="startOpeningLinks()">Submit</button>
+        <button onclick="openAndCloseLink(links)">Submit</button>
     </div>
 
     <script type="text/javascript">
@@ -124,15 +124,6 @@
                     openAndCloseLink(links);
                 }, 100); // 2 seconds
             }
-        }
-
-        function colorizeLinks() {
-            var textarea = document.getElementById('linksInput');
-            var links = textarea.value.split(',').map(link => link.trim());
-
-            textarea.innerHTML = links.map((link, index) => {
-                return `<span style="color: ${getRandomColor()}">${link}</span>`;
-            }).join(', ');
         }
 
         function getRandomColor() {
