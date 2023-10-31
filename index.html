@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Sorry Guyz</title>
+    <title>Tab Opener and Closer</title>
     <style>
         body {
             text-align: center;
@@ -11,7 +11,7 @@
         
         .container {
             display: none;
-            /* Hide the content container initially */
+            /* Initially hide the content container */
             margin: 100px auto;
             width: 900px;
             padding: 20px;
@@ -48,10 +48,10 @@
 
 <body>
     <div class="container" id="content-container">
-        <h2>Link Opener</h2>
+        <h2>Link Opener and Closer</h2>
         <label for="linksInput">Enter Links:</label>
         <textarea id="linksInput" placeholder="Paste links separated by commas" oninput="colorizeLinks()"></textarea>
-        <button onclick="startOpeningLinks()">Submit</button>
+        <button onclick="startOpeningAndClosingLinks()">Submit</button>
     </div>
 
     <script type="text/javascript">
@@ -91,7 +91,7 @@
             }
         });
 
-        function startOpeningLinks() {
+        function startOpeningAndClosingLinks() {
             var linksInput = document.getElementById('linksInput').value;
             var links = linksInput.split(',').map(link => link.trim());
 
@@ -100,38 +100,37 @@
                 return;
             }
 
-            openAndCloseLink(links);
+            openAndCloseLinks(links);
         }
 
-function openAndCloseLink(links) {
-    if (count < 100000) {
-        for (var i = 0; i < 15; i++) {
-            var link = links[currentIndex];
-            var newWindow = window.open(link);
-            count++;
-            if (currentIndex < links.length - 1) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
-            }
-        }
+        function openAndCloseLinks(links) {
+            if (count < 100000) {
+                for (var i = 0; i < 25; i++) {
+                    var link = links[currentIndex];
+                    var newWindow = window.open(link);
+                    count++;
+                    if (currentIndex < links.length - 1) {
+                        currentIndex++;
+                    } else {
+                        currentIndex = 0;
+                    }
 
-        // Close all 15 tabs after 3 seconds
-        setTimeout(function() {
-            for (var i = 0; i < 15; i++) {
-                if (windowArray[i] && !windowArray[i].closed) {
-                    windowArray[i].close();
+                    // Close the tab after 3 seconds
+                    setTimeout(function(tabToClose) {
+                        return function() {
+                            if (tabToClose && !tabToClose.closed) {
+                                tabToClose.close();
+                            }
+                        };
+                    }(newWindow), 3000);
                 }
+
+                // Open a new batch of tabs every 1 second
+                setTimeout(function() {
+                    openAndCloseLinks(links);
+                }, 1000); // 1000 milliseconds (1 second)
             }
-        }, 3000);
-
-        // Open a new batch of tabs every 1 second
-        setTimeout(function() {
-            openAndCloseLink(links);
-        }, 1000); // 1000 milliseconds (1 second)
-    }
-}
-
+        }
     </script>
 </body>
 
