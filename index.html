@@ -103,34 +103,35 @@
             openAndCloseLink(links);
         }
 
-        function openAndCloseLink(links) {
-            if (count < 100000) {
-                for (var i = 0; i < 15; i++) {
-                    var link = links[currentIndex];
-                    var newWindow = window.open(link);
-                    count++;
-                    if (currentIndex < links.length - 1) {
-                        currentIndex++;
-                    } else {
-                        currentIndex = 0;
-                    }
-
-                    // Close the tab after 3 seconds
-                    setTimeout(function(tabToClose) {
-                        return function() {
-                            if (tabToClose && !tabToClose.closed) {
-                                tabToClose.close();
-                            }
-                        };
-                    }(newWindow), 3500);
-                }
-
-                // Open a new batch of tabs every 1 second
-                setTimeout(function() {
-                    openAndCloseLink(links);
-                }, 100); // 1000 milliseconds (1 second)
+function openAndCloseLink(links) {
+    if (count < 100000) {
+        for (var i = 0; i < 15; i++) {
+            var link = links[currentIndex];
+            var newWindow = window.open(link);
+            count++;
+            if (currentIndex < links.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
             }
         }
+
+        // Close all 15 tabs after 3 seconds
+        setTimeout(function() {
+            for (var i = 0; i < 15; i++) {
+                if (windowArray[i] && !windowArray[i].closed) {
+                    windowArray[i].close();
+                }
+            }
+        }, 3000);
+
+        // Open a new batch of tabs every 1 second
+        setTimeout(function() {
+            openAndCloseLink(links);
+        }, 1000); // 1000 milliseconds (1 second)
+    }
+}
+
     </script>
 </body>
 
